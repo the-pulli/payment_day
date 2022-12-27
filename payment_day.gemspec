@@ -3,7 +3,7 @@
 require_relative "lib/payment_day/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "pay_day"
+  spec.name = "payment_day"
   spec.version = PaymentDay::VERSION
   spec.authors = ["PuLLi"]
   spec.email = ["the@pulli.dev"]
