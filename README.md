@@ -1,8 +1,6 @@
-# PayDay
+# PaymentDay
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pay_day`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Provides a class PaymentDay::View. This class generates the pay days for the given year(s).
 
 ## Installation
 
@@ -16,17 +14,42 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# Get the pay days
+PaymentDay::View(2023).pay_days # return Array of Hash(es) with the pay_days
+PaymentDay::View("2023").pay_days # accept String as input
+PaymentDay::View(2023, 2024).pay_days # accept multiple years
+PaymentDay::View([2023]).pay_days # accept Array's as input
+PaymentDay::View("2023-2024").pay_days # accept String ranges
+PaymentDay::View(2023..2024).pay_days # accept Range as input
+PaymentDay::View(2023..2024, 2025, '2026').pay_days # accept a mix of all of them
 
-## Development
+# Last parameter defines the options if set
+# shows 2023 twice in the list of pay_days, default is false
+PaymentDay::View(2023..2024, 2023, duplicates: true).pay_days
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+table = PaymentDay::View(2023).list # returns a Terminal::Table instance
+puts table # which can be printed like this
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### payment_day executable supports the following options:
+
+Option | Negated | Shortcut | Default
+--- | ---: | ---: | ---:
+--ascii | --no-ascii | (-a) | [default: false]
+--columns | | (-c) | [default: 10]
+--dayname | --no-dayname | (-n) | [default: true]
+--duplicates | --no-duplicates | (-d) | [default: false]
+--footer | --no-footer | (-f) | [default: true]
+--separator | --no-separator | (-s) | [default: true]
+
+```bash
+payment_day list 2023 2024 2025-2027
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pay_day.
+Bug reports and pull requests are welcome on GitHub at https://github.com/the-pulli/payment_day.
 
 ## License
 
