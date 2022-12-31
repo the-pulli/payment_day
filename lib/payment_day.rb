@@ -8,13 +8,22 @@ require_relative "payment_day/version"
 module PaymentDay
   # View class
   class View
+    DEFAULT_OPTIONS = {
+      ascii: false,
+      dayname: false,
+      duplicates: false,
+      footer: true,
+      page: nil,
+      pages: nil,
+      separator: true
+    }.freeze
+
     attr_reader :pay_days, :years
 
     def initialize(*years)
-      default_options = { separator: true, ascii: false, dayname: false, page: nil, pages: nil, duplicates: false, footer: true }
       options = years.last.is_a?(Hash) ? years.slice!(-1) : {}
       @months = []
-      @options = default_options.merge options.transform_keys(&:to_sym)
+      @options = DEFAULT_OPTIONS.merge options.transform_keys(&:to_sym)
       @years = prepare_years(years)
       @pay_days = find_pay_days
     end
@@ -28,7 +37,7 @@ module PaymentDay
         @years.each_index { |v| t.align_column v.next, :center }
         page = @options[:page]
         pages = @options[:pages]
-        unless !@options[:footer] || (page.nil? || (page == 1 && pages == 1))
+        if @options[:footer] && pages > 1
           t.add_row [{ colspan: @years.length.next, value: "Page #{page}/#{pages}",
                        alignment: :center }]
         end

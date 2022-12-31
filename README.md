@@ -36,15 +36,16 @@ puts table # which can be printed like this
 
 Option | Negated | Shortcut | Default
 --- | ---: | ---: | ---:
---ascii | --no-ascii | (-a) | [default: false]
---columns | | (-c) | [default: 10]
---dayname | --no-dayname | (-n) | [default: true]
---duplicates | --no-duplicates | (-d) | [default: false]
---footer | --no-footer | (-f) | [default: true]
---separator | --no-separator | (-s) | [default: true]
+--ascii | --no-ascii | -a | false
+--columns | | -c | 10
+--dayname | --no-dayname | -e | true
+--duplicates | --no-duplicates | -d | false
+--footer | --no-footer | -f | true
+--header | --no-header | -h | true
+--separator | --no-separator | -s | true
 
 ```bash
-payment_day list 2023 2024 2025-2027
+payment_day view 2023 2024 2025-2027
 ```
 
 ## Contributing
