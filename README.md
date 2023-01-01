@@ -28,7 +28,7 @@ PaymentDay::View.create(2023..2024, 2025, '2026').pay_days # accept a mix of all
 # shows 2023 twice in the list of pay_days, default is false
 PaymentDay::View.create(2023..2024, 2023, duplicates: true).pay_days
 
-table = PaymentDay::View(2023).list # returns a Terminal::Table instance
+table = PaymentDay::View.create(2023).list # returns a Terminal::Table instance
 puts table # which can be printed like this
 ```
 
