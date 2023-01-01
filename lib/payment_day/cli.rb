@@ -19,13 +19,13 @@ module PaymentDay
     method_option :header, aliases: "-h", type: :boolean, default: true, desc: "Do you wanna see the table title?"
     method_option :separator, aliases: "-s", type: :boolean, default: true, desc: "Do you want to have a separator for the rows printed?"
     def view(*years)
-      years = PaymentDay::View.new(years, options).years
+      years = PaymentDay::View.create(years, options).years
       years = years.each_slice(options[:columns])
       years.each_with_index do |yearsChunk, page|
         year_options = options.dup
         year_options[:page] = page.next
         year_options[:pages] = years.to_a.length
-        puts PaymentDay::View.new(yearsChunk, year_options).list()
+        puts PaymentDay::View.create(yearsChunk, year_options).list()
       end
     end
   end

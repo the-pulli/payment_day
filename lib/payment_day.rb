@@ -18,6 +18,8 @@ module PaymentDay
       separator: true
     }.freeze
 
+    private_class_method :new
+
     attr_reader :pay_days, :years
 
     def initialize(*years)
@@ -26,6 +28,10 @@ module PaymentDay
       @options = DEFAULT_OPTIONS.merge options.transform_keys(&:to_sym)
       @years = prepare_years(years)
       @pay_days = find_pay_days
+    end
+
+    def self.create(*years)
+      new(*years)
     end
 
     def list
