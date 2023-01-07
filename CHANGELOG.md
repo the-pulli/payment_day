@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.2.4] - 2023-01-07
+
+- fix constant instantion
+
 ## [0.2.3] - 2023-01-07
 
 - fix broken format_pay_days method

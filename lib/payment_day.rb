@@ -15,8 +15,8 @@ module PaymentDay
       dayname: false,
       duplicates: false,
       footer: true,
-      page: nil,
-      pages: nil,
+      page: 1,
+      pages: 1,
       separator: true
     }.freeze
 
