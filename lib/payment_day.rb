@@ -10,6 +10,8 @@ module PaymentDay
   class View
     DEFAULT_OPTIONS = {
       ascii: false,
+      colors: true,
+      columns: 10,
       dayname: false,
       duplicates: false,
       footer: true,
@@ -36,10 +38,12 @@ module PaymentDay
 
     def list
       Terminal::Table.new do |t|
-        t.title = Rainbow("Pay days").bright
-        t.headings = [Rainbow("Month").bright] + @years.map { |y| { value: Rainbow(y).bright, alignment: :center } }
+        t.title = format("Pay days", :bright)
+        t.headings = [format("Month", :bright)] + @years.map do |y|
+          { value: format(y, :bright), alignment: :center }
+        end
         t.style = { all_separators: @options[:separator], border: border }
-        t.rows = @months.map { |m| Rainbow(m).cyan }.zip(*format_pay_days)
+        t.rows = @months.map { |m| format(m, :cyan) }.zip(*format_pay_days)
         @years.each_index { |v| t.align_column v.next, :center }
         page = @options[:page]
         pages = @options[:pages]
@@ -53,6 +57,10 @@ module PaymentDay
     alias show list
 
     private
+
+    def format(value, color)
+      @options[:colors] ? Rainbow(value).send(color) : value
+    end
 
     def prepare_years(years)
       result = years.flatten.map do |year|
@@ -76,32 +84,32 @@ module PaymentDay
     end
 
     def find_pay_days
-      unless @options[:duplicates]
-        year_hsh = {}
-        @years.each.with_index do |year, index|
-          year_hsh[year] = (1..12).to_a.map do |month|
-            last_day = Date.parse("#{year}-#{month}-01").next_month.prev_day
-            @months.push(last_day.strftime("%B")) if index.zero?
-            prev(last_day)
-          end
-        end
-        return year_hsh
-      end
-
-      @years.map.with_index do |year, index|
-        (1..12).to_a.map do |month|
+      year_hsh = {}
+      years_ary = @years.map.with_index do |year, index|
+        year_hsh[year] = (1..12).to_a.map do |month|
           last_day = Date.parse("#{year}-#{month}-01").next_month.prev_day
           @months.push(last_day.strftime("%B")) if index.zero?
           prev(last_day)
         end
       end
+      return years_ary if @options[:duplicates]
+
+      year_hsh
     end
 
     def format_pay_days
       format = @options[:dayname] ? "%a, %d" : "%d"
-      return @pay_days.map { |_, year| year.map { |d| Rainbow(d.strftime(format)).green } } unless @options[:duplicates]
+      formatter = lambda { |d|
+        day = d.strftime(format)
+        format(day, :green)
+      }
 
-      @pay_days.map { |year| year.map { |d| Rainbow(d.strftime(format)).green } }
+      p @pay_days.is_a?(Hash)
+      @pay_days.map do |_, years|
+        p years
+       # mapping_object = @options[:duplicates] ? year : days
+        years.map { |d| formatter.call(d) }
+      end
     end
 
     def prev(day)

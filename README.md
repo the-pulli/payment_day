@@ -39,6 +39,7 @@ puts table # which can be printed like this
 Option | Negated | Shortcut | Default
 --- | ---: | ---: | ---:
 --ascii | --no-ascii | -a | false
+--colors | --no-colors | | true
 --columns | | -c | 10
 --dayname | --no-dayname | -e | true
 --duplicates | --no-duplicates | -d | false
