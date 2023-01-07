@@ -99,16 +99,17 @@ module PaymentDay
 
     def format_pay_days
       format = @options[:dayname] ? "%a, %d" : "%d"
-      formatter = lambda { |d|
-        day = d.strftime(format)
-        format(day, :green)
+      formatter = lambda { |days|
+        days.map do |d|
+          day = d.strftime(format)
+          format(day, :green)
+        end
       }
 
-      p @pay_days.is_a?(Hash)
-      @pay_days.map do |_, years|
-        p years
-       # mapping_object = @options[:duplicates] ? year : days
-        years.map { |d| formatter.call(d) }
+      if @options[:duplicates]
+        @pay_days.map { |days| formatter.call(days) }
+      else
+        @pay_days.map { |_, days| formatter.call(days) }
       end
     end
 
