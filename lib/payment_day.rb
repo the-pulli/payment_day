@@ -12,7 +12,7 @@ module PaymentDay
       ascii: false,
       colors: true,
       columns: 10,
-      dayname: false,
+      dayname: true,
       duplicates: false,
       footer: true,
       page: 1,
@@ -121,6 +121,26 @@ module PaymentDay
 
     def border
       @options[:ascii] ? :ascii : :unicode_round
+    end
+  end
+
+  class Views
+    attr_reader :views
+
+    def initialize(views, options)
+      @views = []
+      years = View.create(views, options).years
+      years = years.each_slice(options[:columns])
+      years.each_with_index do |years_chunk, page|
+        year_options = options.dup
+        year_options[:page] = page.next
+        year_options[:pages] = years.to_a.length
+        @views.push(View.create(years_chunk, year_options))
+      end
+    end
+
+    def print
+      @views.each { |view| puts view.list }
     end
   end
 end

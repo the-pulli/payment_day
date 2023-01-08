@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.2.5] - 2023-01-08
+
+- introduce Views class as wrapper for chunked data
+- bug fixes
+
 ## [0.2.4] - 2023-01-07
 
 - fix constant instantion
