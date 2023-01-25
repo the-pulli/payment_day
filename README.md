@@ -1,7 +1,5 @@
 # PaymentDay
 
-[![Build Status](https://app.travis-ci.com/the-pulli/payment_day.svg?branch=main)](https://app.travis-ci.com/the-pulli/payment_day)
-
 Provides a class PaymentDay::View. This class generates the pay days for the given year(s).
 
 ## Installation
