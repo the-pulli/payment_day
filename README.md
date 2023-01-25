@@ -1,5 +1,7 @@
 # PaymentDay
 
+![Status](https://github.com/the-pulli/payment_day/actions/workflows/main.yml/badge.svg)
+
 Provides a class PaymentDay::View. This class generates the pay days for the given year(s).
 
 ## Installation
